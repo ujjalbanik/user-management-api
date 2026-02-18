@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
-from app.schemas.user import UserCreate, UserResponse
-from app.services.user_service import register_user
+from app.schemas.user import UserCreate, UserResponse, UserUpdate
+from app.services.user_service import register_user, delete_user_profile, update_user_profile
 from app.db.database import get_db
 from app.core.dependencies import get_current_user, get_current_admin
 from app.models.user import User
@@ -27,3 +27,21 @@ def get_all_users(
     admin: User = Depends(get_current_admin)
 ):
     return db.query(User).all()
+
+@router.put("/{user_id}", response_model=UserResponse)
+def update_user(
+    user_id: int,
+    data: UserUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return update_user_profile(db, current_user, user_id, data.email, data.password)
+
+
+@router.delete("/{user_id}")
+def delete_user_account(
+    user_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return delete_user_profile(db, current_user, user_id)
