@@ -1,145 +1,95 @@
-# User Management API
+# User Management API (Production-Style Backend)
 
-A production-style backend project built with **FastAPI** following clean architecture principles.
-This project implements a secure user registration system with password hashing, validation, and database persistence using PostgreSQL.
+A production-style backend REST API built using FastAPI, PostgreSQL, SQLAlchemy, and JWT authentication.
+The project follows clean architecture principles, layered design, and automated testing practices used in real backend systems.
 
----
+## Features
 
-## 🚀 Tech Stack
+* User registration & login
+* JWT authentication (stateless auth)
+* Role-based access control (Admin & User)
+* Secure password hashing (bcrypt)
+* Protected routes
+* Ownership permissions (users can edit only themselves)
+* Filtering & pagination
+* Centralized error handling
+* Automated API testing (pytest)
+* Database migrations using Alembic
 
-* Python 3
+## Tech Stack
+
 * FastAPI
 * PostgreSQL
 * SQLAlchemy ORM
+* Alembic (migrations)
+* Pytest (automated testing)
 * Pydantic (validation)
-* Passlib (bcrypt password hashing)
-* Uvicorn (ASGI server)
+* Passlib (password hashing)
+* Python-JOSE (JWT auth)
 
----
+## Project Structure
 
-## 📂 Project Structure
-
-```
 app/
-│
-├── api/            # Routes / Controllers
-├── core/           # Security & configuration
-├── db/             # Database connection & session
-├── models/         # SQLAlchemy models (tables)
-├── schemas/        # Pydantic validation schemas
-├── repositories/   # Database queries
-├── services/       # Business logic
-└── main.py         # Application entry point
-```
 
----
+* api → route layer
+* services → business logic
+* repositories → database operations
+* models → DB models
+* schemas → validation layer
+* core → security & config
 
-## ⚙️ Features
+## How to Run
 
-* User Registration API
-* Password hashing (bcrypt)
-* Input validation using Pydantic
-* Clean layered architecture
-* PostgreSQL database integration
-* Swagger API documentation
-
----
-
-## 🔐 API Endpoint
-
-### Register User
-
-`POST /users/`
-
-Example Request:
-
-```json
-{
-  "email": "user@example.com",
-  "password": "admin123"
-}
-```
-
-Example Response:
-
-```json
-{
-  "id": 1,
-  "email": "user@example.com",
-  "is_active": true,
-  "is_admin": false
-}
-```
-
----
-
-## 🧠 Architecture Overview
-
-The project follows a layered backend architecture:
-
-Client → API Routes → Services → Repositories → Database
-
-Each layer has a single responsibility:
-
-* **API**: Handles HTTP requests
-* **Service**: Business logic & validation
-* **Repository**: Database operations
-* **Model**: Database schema
-
----
-
-## 🛠 Setup Instructions
-
-### 1. Clone Repository
-
-```
-git clone https://github.com/yourusername/user-management-api.git
-cd user-management-api
-```
-
-### 2. Create Virtual Environment
+1. Create virtual environment
 
 ```
 python -m venv venv
 venv\Scripts\activate
 ```
 
-### 3. Install Dependencies
+2. Install dependencies
 
 ```
 pip install -r requirements.txt
 ```
 
-### 4. Configure Environment Variables
-
-Create a `.env` file:
+3. Setup environment variables
+   Create `.env`:
 
 ```
-DATABASE_URL=postgresql://postgres:password@localhost:5432/usermanagement
-SECRET_KEY=supersecretkey
+DATABASE_URL=your_database_url
+SECRET_KEY=your_secret_key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 ```
 
-### 5. Run Server
+4. Run migrations
+
+```
+alembic upgrade head
+```
+
+5. Start server
 
 ```
 uvicorn app.main:app --reload
 ```
 
-Open:
+## Run Tests
 
 ```
-http://127.0.0.1:8000/docs
+pytest
 ```
 
----
+## What I Learned
 
-## 📌 Notes
+This project helped me understand:
 
-This project is part of a backend engineering learning journey focused on understanding real-world API design, security, and scalable architecture rather than building a simple CRUD tutorial project.
-
----
+* layered backend architecture
+* authentication & authorization
+* secure API design
+* database migrations
+* automated testing workflow
 
 ## 👨‍💻 Author
 
